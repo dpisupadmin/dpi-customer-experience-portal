@@ -1,0 +1,206 @@
+<!doctype html>
+
+<html>
+<head><title>DPI Customer Experience Portal</title>
+
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<link href="css/portal.css" rel="stylesheet"/></head>
+<body style="--dpi-watermark:url('assets/images/dpi-logo.png')">
+<header class="top">
+<div class="topin">
+<img alt="DPI logo" class="brandLogo" onclick="showPortalHome()" onkeydown="if(event.key==='Enter'||event.key===' ')showPortalHome()" role="button" src="assets/images/dpi-logo.png" tabindex="0" title="Customer Experience Portal Home"/>
+<div class="brandCopy">
+<div class="eyebrow" id="moduleEyebrow">DPI CUSTOMER EXPERIENCE PORTAL</div>
+<div class="brand" id="moduleBrandTitle">Customer Experience Portal</div>
+<div class="sub" id="moduleBrandSub" style="display:none"></div>
+</div>
+</div>
+<div class="topNav moduleNav" id="moduleNav" style="display:none">
+<div class="moduleBar singleModuleBar" id="ucuaModuleNav" style="display:none">
+<button class="portalBack" onclick="showPortalHome()">← Portal Home</button>
+</div>
+<div class="moduleBar singleModuleBar" id="surveyModuleNav" style="display:none">
+<button class="portalBack" onclick="showPortalHome()">← Portal Home</button>
+</div>
+<div class="moduleBar singleModuleBar" id="adminModuleNav" style="display:none">
+<button class="portalBack" onclick="showPortalHome()">← Portal Home</button>
+</div>
+</div>
+</header>
+<div class="portalOverlay" id="portalOverlay">
+<div aria-labelledby="portalWelcomeTitle" aria-modal="true" class="portalWelcome" role="dialog">
+<button aria-label="Open Admin / HSE" class="portalAdminLogo" onclick="openPortalModule('admin')" title="Admin / HSE Access">
+<img alt="DPI logo" src="assets/images/dpi-logo.png"/>
+</button>
+<h1 id="portalWelcomeTitle">Welcome to DPI - Customer Experience Portal</h1>
+<p>Select the service you would like to access.</p>
+<div class="portalChoices">
+<button class="portalChoice ucuaChoice" onclick="openPortalModule('ucua')"><span class="choiceIcon">✓</span><span><strong>UCUA Observation</strong><small>Submit or review a safety observation</small></span></button>
+<button class="portalChoice surveyChoice" onclick="openPortalModule('survey')"><span class="choiceIcon">★</span><span><strong>Customer Satisfaction Survey</strong><small>Share your experience with DPI</small></span></button>
+</div>
+</div>
+</div>
+<main class="wrap">
+<section class="card pane" id="customerSurvey">
+<h2 class="title">DPI Customer Satisfaction Survey</h2>
+<div class="surveyIntro"><strong>Dear Customer,</strong><br/>Our goal is to be the best supplier of goods and services to you. As our customer, your constructive comments are greatly appreciated so that we can continuously improve our service to you.<br/><br/>Please rate our service from <strong>1 to 5</strong>, with 5 representing the highest level of satisfaction.</div>
+<div class="surveyScale"><span><strong>1</strong> Very dissatisfied</span><span><strong>2</strong> Dissatisfied</span><span><strong>3</strong> Neutral</span><span><strong>4</strong> Satisfied</span><span><strong>5</strong> Very satisfied</span></div>
+<div class="grid">
+<div><label>Name of Customer <span class="req">*</span></label><input id="cssCustomerName" placeholder="Customer name"/></div>
+<div><label>Email Address <span class="req">*</span></label><input autocomplete="email" id="cssEmail" placeholder="name@company.com" type="email"/></div>
+<div><label>Company <span class="req">*</span></label><input id="cssCompany" placeholder="Company name"/></div>
+<div><label>Location / Field / Rig Name <span class="req">*</span></label><input id="cssLocation" placeholder="Location, field or rig"/></div>
+<div><label>Equipment ID On-Site</label><input data-no-titlecase="1" id="cssEquipment" placeholder="Equipment ID / serial / package reference"/></div>
+<div><label>Crew On-Site</label><input id="cssCrew" placeholder="DPI crew / personnel on-site"/></div>
+<div><label>Date <span class="req">*</span></label><input id="cssDate" type="date"/></div>
+</div>
+<div class="surveySectionCard"><div class="surveySectionHead"><strong>A. Timeliness &amp; Reliability of Delivery</strong><div>1 = Very dissatisfied   ·   5 = Very satisfied</div></div><table class="ratingTable"><thead><tr><th>Assessment Item</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>On-Time Delivery</td><td data-score="1"><input aria-label="On-Time Delivery score 1" name="css_a1" type="radio" value="1"/></td><td data-score="2"><input aria-label="On-Time Delivery score 2" name="css_a1" type="radio" value="2"/></td><td data-score="3"><input aria-label="On-Time Delivery score 3" name="css_a1" type="radio" value="3"/></td><td data-score="4"><input aria-label="On-Time Delivery score 4" name="css_a1" type="radio" value="4"/></td><td data-score="5"><input aria-label="On-Time Delivery score 5" name="css_a1" type="radio" value="5"/></td></tr><tr><td>Respond promptly</td><td data-score="1"><input aria-label="Respond promptly score 1" name="css_a2" type="radio" value="1"/></td><td data-score="2"><input aria-label="Respond promptly score 2" name="css_a2" type="radio" value="2"/></td><td data-score="3"><input aria-label="Respond promptly score 3" name="css_a2" type="radio" value="3"/></td><td data-score="4"><input aria-label="Respond promptly score 4" name="css_a2" type="radio" value="4"/></td><td data-score="5"><input aria-label="Respond promptly score 5" name="css_a2" type="radio" value="5"/></td></tr><tr><td>Provides accurate info/product/service</td><td data-score="1"><input aria-label="Provides accurate info/product/service score 1" name="css_a3" type="radio" value="1"/></td><td data-score="2"><input aria-label="Provides accurate info/product/service score 2" name="css_a3" type="radio" value="2"/></td><td data-score="3"><input aria-label="Provides accurate info/product/service score 3" name="css_a3" type="radio" value="3"/></td><td data-score="4"><input aria-label="Provides accurate info/product/service score 4" name="css_a3" type="radio" value="4"/></td><td data-score="5"><input aria-label="Provides accurate info/product/service score 5" name="css_a3" type="radio" value="5"/></td></tr><tr><td>Service is there when needed</td><td data-score="1"><input aria-label="Service is there when needed score 1" name="css_a4" type="radio" value="1"/></td><td data-score="2"><input aria-label="Service is there when needed score 2" name="css_a4" type="radio" value="2"/></td><td data-score="3"><input aria-label="Service is there when needed score 3" name="css_a4" type="radio" value="3"/></td><td data-score="4"><input aria-label="Service is there when needed score 4" name="css_a4" type="radio" value="4"/></td><td data-score="5"><input aria-label="Service is there when needed score 5" name="css_a4" type="radio" value="5"/></td></tr><tr><td>Short lead time</td><td data-score="1"><input aria-label="Short lead time score 1" name="css_a5" type="radio" value="1"/></td><td data-score="2"><input aria-label="Short lead time score 2" name="css_a5" type="radio" value="2"/></td><td data-score="3"><input aria-label="Short lead time score 3" name="css_a5" type="radio" value="3"/></td><td data-score="4"><input aria-label="Short lead time score 4" name="css_a5" type="radio" value="4"/></td><td data-score="5"><input aria-label="Short lead time score 5" name="css_a5" type="radio" value="5"/></td></tr></tbody></table></div><div class="surveySectionCard"><div class="surveySectionHead"><strong>B. Quality of Product &amp; Services</strong><div>1 = Very dissatisfied   ·   5 = Very satisfied</div></div><table class="ratingTable"><thead><tr><th>Assessment Item</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>Provides 100% quality products/service</td><td data-score="1"><input aria-label="Provides 100% quality products/service score 1" name="css_b1" type="radio" value="1"/></td><td data-score="2"><input aria-label="Provides 100% quality products/service score 2" name="css_b1" type="radio" value="2"/></td><td data-score="3"><input aria-label="Provides 100% quality products/service score 3" name="css_b1" type="radio" value="3"/></td><td data-score="4"><input aria-label="Provides 100% quality products/service score 4" name="css_b1" type="radio" value="4"/></td><td data-score="5"><input aria-label="Provides 100% quality products/service score 5" name="css_b1" type="radio" value="5"/></td></tr><tr><td>Accepts responsibility of quality works</td><td data-score="1"><input aria-label="Accepts responsibility of quality works score 1" name="css_b2" type="radio" value="1"/></td><td data-score="2"><input aria-label="Accepts responsibility of quality works score 2" name="css_b2" type="radio" value="2"/></td><td data-score="3"><input aria-label="Accepts responsibility of quality works score 3" name="css_b2" type="radio" value="3"/></td><td data-score="4"><input aria-label="Accepts responsibility of quality works score 4" name="css_b2" type="radio" value="4"/></td><td data-score="5"><input aria-label="Accepts responsibility of quality works score 5" name="css_b2" type="radio" value="5"/></td></tr><tr><td>Request constructive improvement</td><td data-score="1"><input aria-label="Request constructive improvement score 1" name="css_b3" type="radio" value="1"/></td><td data-score="2"><input aria-label="Request constructive improvement score 2" name="css_b3" type="radio" value="2"/></td><td data-score="3"><input aria-label="Request constructive improvement score 3" name="css_b3" type="radio" value="3"/></td><td data-score="4"><input aria-label="Request constructive improvement score 4" name="css_b3" type="radio" value="4"/></td><td data-score="5"><input aria-label="Request constructive improvement score 5" name="css_b3" type="radio" value="5"/></td></tr><tr><td>Positive feedback</td><td data-score="1"><input aria-label="Positive feedback score 1" name="css_b4" type="radio" value="1"/></td><td data-score="2"><input aria-label="Positive feedback score 2" name="css_b4" type="radio" value="2"/></td><td data-score="3"><input aria-label="Positive feedback score 3" name="css_b4" type="radio" value="3"/></td><td data-score="4"><input aria-label="Positive feedback score 4" name="css_b4" type="radio" value="4"/></td><td data-score="5"><input aria-label="Positive feedback score 5" name="css_b4" type="radio" value="5"/></td></tr><tr><td>Functionality of Product/Services</td><td data-score="1"><input aria-label="Functionality of Product/Services score 1" name="css_b5" type="radio" value="1"/></td><td data-score="2"><input aria-label="Functionality of Product/Services score 2" name="css_b5" type="radio" value="2"/></td><td data-score="3"><input aria-label="Functionality of Product/Services score 3" name="css_b5" type="radio" value="3"/></td><td data-score="4"><input aria-label="Functionality of Product/Services score 4" name="css_b5" type="radio" value="4"/></td><td data-score="5"><input aria-label="Functionality of Product/Services score 5" name="css_b5" type="radio" value="5"/></td></tr></tbody></table></div><div class="surveySectionCard"><div class="surveySectionHead"><strong>C. Responsive to Customer Needs</strong><div>1 = Very dissatisfied   ·   5 = Very satisfied</div></div><table class="ratingTable"><thead><tr><th>Assessment Item</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>Good listener</td><td data-score="1"><input aria-label="Good listener score 1" name="css_c1" type="radio" value="1"/></td><td data-score="2"><input aria-label="Good listener score 2" name="css_c1" type="radio" value="2"/></td><td data-score="3"><input aria-label="Good listener score 3" name="css_c1" type="radio" value="3"/></td><td data-score="4"><input aria-label="Good listener score 4" name="css_c1" type="radio" value="4"/></td><td data-score="5"><input aria-label="Good listener score 5" name="css_c1" type="radio" value="5"/></td></tr><tr><td>Delivers to point of use</td><td data-score="1"><input aria-label="Delivers to point of use score 1" name="css_c2" type="radio" value="1"/></td><td data-score="2"><input aria-label="Delivers to point of use score 2" name="css_c2" type="radio" value="2"/></td><td data-score="3"><input aria-label="Delivers to point of use score 3" name="css_c2" type="radio" value="3"/></td><td data-score="4"><input aria-label="Delivers to point of use score 4" name="css_c2" type="radio" value="4"/></td><td data-score="5"><input aria-label="Delivers to point of use score 5" name="css_c2" type="radio" value="5"/></td></tr><tr><td>Review changes with customer</td><td data-score="1"><input aria-label="Review changes with customer score 1" name="css_c3" type="radio" value="1"/></td><td data-score="2"><input aria-label="Review changes with customer score 2" name="css_c3" type="radio" value="2"/></td><td data-score="3"><input aria-label="Review changes with customer score 3" name="css_c3" type="radio" value="3"/></td><td data-score="4"><input aria-label="Review changes with customer score 4" name="css_c3" type="radio" value="4"/></td><td data-score="5"><input aria-label="Review changes with customer score 5" name="css_c3" type="radio" value="5"/></td></tr><tr><td>Competitive cost</td><td data-score="1"><input aria-label="Competitive cost score 1" name="css_c4" type="radio" value="1"/></td><td data-score="2"><input aria-label="Competitive cost score 2" name="css_c4" type="radio" value="2"/></td><td data-score="3"><input aria-label="Competitive cost score 3" name="css_c4" type="radio" value="3"/></td><td data-score="4"><input aria-label="Competitive cost score 4" name="css_c4" type="radio" value="4"/></td><td data-score="5"><input aria-label="Competitive cost score 5" name="css_c4" type="radio" value="5"/></td></tr><tr><td>Is always there when needed</td><td data-score="1"><input aria-label="Is always there when needed score 1" name="css_c5" type="radio" value="1"/></td><td data-score="2"><input aria-label="Is always there when needed score 2" name="css_c5" type="radio" value="2"/></td><td data-score="3"><input aria-label="Is always there when needed score 3" name="css_c5" type="radio" value="3"/></td><td data-score="4"><input aria-label="Is always there when needed score 4" name="css_c5" type="radio" value="4"/></td><td data-score="5"><input aria-label="Is always there when needed score 5" name="css_c5" type="radio" value="5"/></td></tr></tbody></table></div><div class="surveySectionCard"><div class="surveySectionHead"><strong>D. Communication with Customer</strong><div>1 = Very dissatisfied   ·   5 = Very satisfied</div></div><table class="ratingTable"><thead><tr><th>Assessment Item</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th></tr></thead><tbody><tr><td>Communication clear</td><td data-score="1"><input aria-label="Communication clear score 1" name="css_d1" type="radio" value="1"/></td><td data-score="2"><input aria-label="Communication clear score 2" name="css_d1" type="radio" value="2"/></td><td data-score="3"><input aria-label="Communication clear score 3" name="css_d1" type="radio" value="3"/></td><td data-score="4"><input aria-label="Communication clear score 4" name="css_d1" type="radio" value="4"/></td><td data-score="5"><input aria-label="Communication clear score 5" name="css_d1" type="radio" value="5"/></td></tr><tr><td>Positive attitude</td><td data-score="1"><input aria-label="Positive attitude score 1" name="css_d2" type="radio" value="1"/></td><td data-score="2"><input aria-label="Positive attitude score 2" name="css_d2" type="radio" value="2"/></td><td data-score="3"><input aria-label="Positive attitude score 3" name="css_d2" type="radio" value="3"/></td><td data-score="4"><input aria-label="Positive attitude score 4" name="css_d2" type="radio" value="4"/></td><td data-score="5"><input aria-label="Positive attitude score 5" name="css_d2" type="radio" value="5"/></td></tr><tr><td>Understand customer needs</td><td data-score="1"><input aria-label="Understand customer needs score 1" name="css_d3" type="radio" value="1"/></td><td data-score="2"><input aria-label="Understand customer needs score 2" name="css_d3" type="radio" value="2"/></td><td data-score="3"><input aria-label="Understand customer needs score 3" name="css_d3" type="radio" value="3"/></td><td data-score="4"><input aria-label="Understand customer needs score 4" name="css_d3" type="radio" value="4"/></td><td data-score="5"><input aria-label="Understand customer needs score 5" name="css_d3" type="radio" value="5"/></td></tr><tr><td>Develops new idea with customer</td><td data-score="1"><input aria-label="Develops new idea with customer score 1" name="css_d4" type="radio" value="1"/></td><td data-score="2"><input aria-label="Develops new idea with customer score 2" name="css_d4" type="radio" value="2"/></td><td data-score="3"><input aria-label="Develops new idea with customer score 3" name="css_d4" type="radio" value="3"/></td><td data-score="4"><input aria-label="Develops new idea with customer score 4" name="css_d4" type="radio" value="4"/></td><td data-score="5"><input aria-label="Develops new idea with customer score 5" name="css_d4" type="radio" value="5"/></td></tr><tr><td>Maintains regular communication</td><td data-score="1"><input aria-label="Maintains regular communication score 1" name="css_d5" type="radio" value="1"/></td><td data-score="2"><input aria-label="Maintains regular communication score 2" name="css_d5" type="radio" value="2"/></td><td data-score="3"><input aria-label="Maintains regular communication score 3" name="css_d5" type="radio" value="3"/></td><td data-score="4"><input aria-label="Maintains regular communication score 4" name="css_d5" type="radio" value="4"/></td><td data-score="5"><input aria-label="Maintains regular communication score 5" name="css_d5" type="radio" value="5"/></td></tr></tbody></table></div>
+<div><label>Comments by Customer <span class="req">*</span></label><textarea id="cssComments" placeholder="Please share your comments, suggestions or feedback..."></textarea></div>
+<div class="actions"><button class="btn" id="cssSubmitBtn" onclick="submitCustomerSurveyForm()">Submit Customer Survey</button></div>
+<div class="msg" id="cssMsg"></div><div id="cssResult"></div>
+</section>
+<section class="card pane ucuaInternalNav" id="ucuaInternalNav">
+<div class="tabs">
+<button class="tab active" data-pane="submit">+ Submit Observation</button>
+<button class="tab" data-pane="history">My Submissions</button>
+<button class="tab" data-pane="anonymous">Track Anonymous</button>
+</div>
+</section>
+<section class="card pane" id="submit">
+<h2 class="title">Submit a UCUA Observation</h2>
+<p class="hint">Everyone is welcome to report a safe or unsafe act/condition.</p>
+<div class="grid">
+</div>
+<div class="identity"><label>Name <span class="req">*</span></label><input id="name" placeholder="Your name"/></div>
+<div class="identity"><label>Email <span class="req">*</span></label><input id="email" placeholder="name@example.com" type="email"/></div>
+<div class="identity"><label>Company / Organization</label><select id="company" name="company" onchange="toggleOtherCompany()">
+<option value="">Select...</option>
+<option value="D&amp;P INNOVATIONS SDN BHD">D&amp;P INNOVATIONS SDN BHD</option>
+<option value="OTHERS">OTHERS</option>
+</select>
+<div id="otherCompanyWrap" style="display:none;margin-top:8px">
+<label for="otherCompany">Company Name <span style="color:#d71920">*</span></label>
+<input autocomplete="organization" id="otherCompany" name="otherCompany" placeholder="Enter company / organization name" type="text"/>
+</div></div>
+<div class="identity"><label>Phone Number <span class="req">*</span></label><input id="phone" placeholder="+60123456789" type="tel"/><div class="privacy">Required for future recognition notifications. Include country code where possible.</div></div>
+<div class="identity full"><div class="secureNote"><strong>No password or PIN required.</strong> To review your submissions later, enter this same email in “My Submissions” and we will send a one-time verification code to your inbox.</div></div>
+<div class="full"><label>Observation Date &amp; Time <span class="req">*</span></label><input id="observationDateTime" type="datetime-local"/><div class="privacy">For a backdated observation, select the actual date and time it occurred.</div></div>
+<div><label>Observation Type <span class="req">*</span></label><select id="observationType"><option value="">Select...</option><option>Safe Act</option><option>Unsafe Act</option><option>Safe Condition</option><option>Unsafe Condition</option><option>Good Catch / Near Miss</option></select></div>
+<div><label>Location <span class="req">*</span></label><select id="locationSelect" onchange="toggleOtherLocation()"><option value="">Select...</option><option>Labuan Base</option><option>Kuantan Base</option><option>Subang Base</option><option value="Others">Others [ Location / Well Site ]</option></select></div>
+<div class="full" id="otherLocationWrap" style="display:none"><label>Location / Well Site <span class="req">*</span></label><input id="otherLocation" placeholder="Enter location or well site"/></div>
+<div class="full"><label>What did you observe? <span class="req">*</span></label><textarea id="observation" placeholder="Describe what you saw..."></textarea></div>
+<div class="full"><label>Immediate action taken</label><textarea id="actionTaken" placeholder="What action did you take, if any?"></textarea></div>
+<div class="full"><label>Photo</label><input accept="image/jpeg,image/png,image/webp" id="photo" type="file"/><div class="privacy">Optional. JPG, PNG or WEBP, maximum 5 MB.</div></div>
+
+<div class="actions"><button class="btn" id="submitBtn" onclick="submitForm()">Submit Observation</button></div>
+<div class="msg" id="submitMsg"></div><div id="submitResult"></div>
+</section>
+<section class="card pane" id="history">
+<h2 class="title">My Submissions</h2>
+<p class="hint">Verify the email used in your UCUA submission. No permanent password is required.</p>
+<div class="sessionBar" id="sessionBar"><div><strong>Verified session active.</strong> <span id="sessionExpiryText"></span></div><button class="btn secondary" onclick="signOutHistory()">End Session</button></div>
+<div class="secureNote"><strong>OTP security:</strong> Codes expire after 10 minutes. A maximum of 5 OTP requests is allowed per email per rolling hour. A maximum of 5 incorrect OTP attempts is allowed per email per day; each OTP is also invalidated after 5 wrong attempts.</div>
+<div class="otpStep active" id="otpRequestStep"><div class="grid"><div class="full"><label>Email</label><input autocomplete="email" id="histEmail" placeholder="name@example.com" type="email"/></div></div><div class="actions"><button class="btn" id="sendOtpBtn" onclick="sendOtp()">Send Verification Code</button></div></div>
+<div class="otpStep" id="otpVerifyStep"><div class="otpBox"><div class="grid"><div class="full"><label>6-digit verification code</label><input autocomplete="one-time-code" class="codeInput" id="histOtp" inputmode="numeric" maxlength="6" placeholder="000000"/><div class="privacy">Check the inbox for <strong id="otpEmailLabel"></strong>. The code expires in 10 minutes.</div></div></div><div class="actions"><button class="btn" id="verifyOtpBtn" onclick="verifyOtp()">Verify &amp; View My Submissions</button><button class="btn secondary" onclick="backToEmail()">Use Different Email</button></div></div></div>
+<div class="msg" id="historyMsg"></div><div id="historyResults"></div>
+</section>
+<section class="card pane" id="anonymous">
+<h2 class="title">Track Anonymous Observation</h2><p class="hint">Use the reference number and private tracking token shown after your anonymous submission.</p>
+<div class="grid"><div><label>Reference Number</label><input id="anonRef" placeholder="UCUA-2026-00001"/></div><div><label>Tracking Token</label><input id="anonToken" placeholder="Private token"/></div></div>
+<div class="actions"><button class="btn" id="anonBtn" onclick="trackAnon()">Track Observation</button></div><div class="msg" id="anonMsg"></div><div id="anonResult"></div>
+</section>
+<section class="card pane" id="admin">
+<div id="adminLogin">
+<h2 class="title">Admin / HSE Access</h2>
+<p class="hint">Authorized administrators only. Access is protected by email OTP.</p>
+<div class="secureNote">Admin addresses must first be registered in the protected <strong>Admins</strong> sheet. Knowing an admin email alone is not enough; the OTP must be received by that mailbox.</div>
+<div class="otpStep active" id="adminEmailStep"><div class="grid"><div class="full"><label>Authorized Admin Email</label><input id="adminEmail" placeholder="hse@company.com" type="email"/></div></div><div class="actions"><button class="btn gold" id="adminSendBtn" onclick="adminSendOtp()">Send Admin OTP</button></div></div>
+<div class="otpStep" id="adminOtpStep"><div class="otpBox"><label>6-digit Admin OTP</label><input autocomplete="one-time-code" class="codeInput" id="adminOtp" inputmode="numeric" maxlength="6" placeholder="000000"/><div class="actions"><button class="btn gold" id="adminVerifyBtn" onclick="adminVerify()">Verify &amp; Open Dashboard</button><button class="btn secondary" onclick="adminBackEmail()">Use Different Email</button></div></div></div>
+<div class="msg" id="adminLoginMsg"></div>
+</div>
+<div class="adminShell" id="adminShell">
+<div class="adminHead">
+<div><h2 class="title">DPI Admin / HSE Dashboard</h2><div class="adminIdentity" id="adminIdentity"></div></div>
+<button class="btn secondary" onclick="adminLogout()">Sign Out</button>
+</div>
+<div class="adminNav">
+<button class="active" data-adminpage="dashboard" onclick="switchAdminPage('dashboard',this)">Dashboard</button>
+<button data-adminpage="observations" onclick="switchAdminPage('observations',this)">All Observations</button>
+<button data-adminpage="recognition" onclick="switchAdminPage('recognition',this)">Recognition</button>
+<button data-adminpage="surveys" onclick="switchAdminPage('surveys',this)">Customer Surveys</button>
+<button data-adminpage="audit" onclick="switchAdminPage('audit',this)">Audit Log</button>
+<button data-adminpage="share" onclick="switchAdminPage('share',this)">Share UCUA / QR</button>
+</div>
+<div class="adminPage active" id="admin-dashboard">
+<div class="monthRow"><div><label>Reporting Month</label><input id="dashMonth" type="month"/></div><button class="btn" onclick="loadAdminDashboard()">Refresh Dashboard</button><button class="btn secondary" onclick="downloadMonthlyCsv()">Download Monthly CSV</button></div>
+<div class="msg" id="dashMsg"></div>
+<div class="metricGrid" id="metricGrid"></div>
+<div class="dashGrid">
+<div class="panel"><h3>Submitted Observation Categories</h3><div class="meta" style="margin-bottom:10px">Monthly category distribution</div><div id="typeChart"></div></div>
+<div class="panel"><h3>Top Contributors</h3><div id="topContrib"></div></div>
+<div class="panel"><h3>Top Locations</h3><div id="topLocations"></div></div>
+<div class="panel"><h3>Recognition This Month</h3><div id="dashRecognition"></div></div>
+</div>
+</div>
+<div class="adminPage" id="admin-observations">
+<div class="filterGrid">
+<div class="wide"><label>Search</label><input id="obsQuery" placeholder="Reference, name, company, location, observation..."/></div>
+<div><label>Month</label><input id="obsMonth" type="month"/></div>
+<div><label>Type</label><select id="obsType"><option value="">All Types</option><option>Safe Act</option><option>Unsafe Act</option><option>Safe Condition</option><option>Unsafe Condition</option><option>Good Catch / Near Miss</option></select></div>
+<div><button class="btn" onclick="loadAdminObservations()">Search</button></div>
+</div>
+<div class="msg" id="obsMsg"></div><div id="obsList"></div>
+</div>
+<div class="adminPage" id="admin-recognition">
+<div class="monthRow"><div><label>Month</label><input id="recMonth" type="month"/></div><button class="btn" onclick="loadRecognitionPage()">Refresh</button></div>
+<div class="panel" style="margin-top:14px"><h3>Monthly Recognition</h3><div id="recPage"></div></div>
+<div class="privacy">Recognition is selected manually by Admin/HSE. Submission count does not automatically determine the “Best UCUA”. Recognition email is sent automatically. SMS requires a configured SMS gateway/provider.</div>
+</div>
+<div class="adminPage" id="admin-surveys">
+<div class="monthRow"><div><label>Survey Month</label><input id="surveyMonth" type="month"/></div><button class="btn" onclick="loadCustomerSurveys()">Refresh Surveys</button><button class="btn secondary" onclick="downloadCustomerSurveyCsv()">Download Survey CSV</button></div>
+<div class="msg" id="surveyAdminMsg"></div>
+<div class="surveyMetricGrid" id="surveyMetricGrid"></div>
+<div class="dashGrid"><div class="panel"><h3>Section Averages</h3><div id="surveySectionChart"></div></div><div class="panel"><h3>Customer Responses</h3><div id="surveyResponses"></div></div></div>
+</div>
+<div class="adminPage" id="admin-audit">
+<div class="actions" style="margin-top:0"><button class="btn" onclick="loadAudit()">Refresh Audit Log</button></div>
+<div class="msg" id="auditMsg"></div><div class="audit" id="auditList"></div>
+</div>
+<div class="adminPage" id="admin-share">
+<div class="panel">
+<h3>Share Public UCUA</h3>
+<p class="hint">Generate a QR code for the currently deployed UCUA web app so Admin/HSE can share it with clients, contractors and visitors.</p>
+<div class="msg" id="shareMsg"></div>
+<div class="sharePanel">
+<div class="qrBox" id="ucuaQr"><div class="meta">QR code will appear here.</div></div>
+<div>
+<label id="shareUrlLabel">Public UCUA Web App URL</label>
+<div class="shareUrl" id="shareUrl">Loading...</div>
+<div class="actions">
+<button class="btn" onclick="copyShareUrl()">Copy Public Link</button>
+<button class="btn secondary" onclick="downloadShareQr()">Download QR PNG</button>
+<button class="btn secondary" onclick="loadShareInfo()">Refresh URL / QR</button>
+</div>
+<div class="secureNote" style="margin-top:14px">
+<strong>Deployment rule:</strong> updating the same Web App deployment to a new version keeps the same public <code>/exec</code> URL. Creating a new Web App deployment creates a new URL, so refresh this QR page after any deployment change.
+                </div>
+</div>
+</div>
+</div>
+</div>
+<div class="adminPage" id="admin-review">
+<div class="actions" style="margin-top:0"><button class="btn secondary" onclick="switchAdminPage('observations')">← Back to Observations</button></div>
+<div class="msg" id="reviewMsg"></div><div id="reviewContent"></div>
+</div>
+</div>
+</section>
+</main>
+
+
+
+<script src="js/config.js"></script>
+<script src="js/api.js"></script><script src="js/portal.js"></script></body>
+</html>

@@ -1,0 +1,14 @@
+{
+  "name": "dpi-customer-experience-portal",
+  "version": "3.0.0-stage3a",
+  "private": true,
+  "type": "module",
+  "description": "Standalone DPI Customer Experience Portal. No Google Apps Script runtime dependency.",
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "test": "node --test",
+    "check:no-gas": "node tests/no-google-apps-script.test.js"
+  }
+}
