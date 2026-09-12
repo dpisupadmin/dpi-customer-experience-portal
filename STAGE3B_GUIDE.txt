@@ -1,0 +1,49 @@
+DPI Customer Experience Portal - Stage 3B Database Connection
+
+Purpose
+-------
+Connect the standalone Vercel Node.js backend to Supabase PostgreSQL.
+Google Apps Script is not used anywhere in this stage.
+
+Prerequisites
+-------------
+Vercel Production environment variables already exist:
+  SUPABASE_URL
+  SUPABASE_SECRET_KEY
+
+Supabase database contains the companies table and DPI seed row.
+
+Files to upload/replace in GitHub
+---------------------------------
+package.json
+lib/supabase.js
+api/health.js
+
+Recommended GitHub commit message
+---------------------------------
+Stage 3B connect Vercel API to Supabase
+
+After commit
+------------
+1. Vercel should deploy automatically from main.
+2. Wait until Production deployment is Ready.
+3. Open:
+   https://dpi-customer-experience-portal.vercel.app/api/health
+
+Expected successful response
+----------------------------
+{
+  "ok": true,
+  "service": "DPI Customer Experience Portal API",
+  "stage": "3B",
+  "runtime": "standalone",
+  "googleAppsScript": false,
+  "databaseConnected": true,
+  "databaseStatus": "connected",
+  "dpiCompanyFound": true
+}
+
+Security
+--------
+Never place SUPABASE_SECRET_KEY in GitHub or frontend JavaScript.
+The secret remains only in Vercel environment variables.
