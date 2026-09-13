@@ -1,5 +1,6 @@
 import { setCors, json, readJsonBody } from '../lib/http.js';
 import { isAllowedMethod } from '../lib/methods.js';
+import { submitCustomerSurvey } from '../lib/customer-surveys.js';
 
 export default async function handler(req, res){
   setCors(req, res);
@@ -20,12 +21,26 @@ export default async function handler(req, res){
     return json(res, 404, { ok:false, error:'Unknown portal operation.' });
   }
 
-  // Stage 3A intentionally stops here. Stages 3B onward replace the old Google
-  // backend behavior with PostgreSQL/storage/email/PDF services.
-  return json(res, 501, {
-    ok: false,
-    error: 'Standalone operation "' + method + '" is not implemented yet. Continue with Stage 3B.',
-    stage: '3A',
-    receivedArgs: args.length
-  });
+  try {
+    if(method === 'submitCustomerSurvey'){
+      if(args.length !== 1 || !args[0] || typeof args[0] !== 'object'){
+        return json(res, 400, { ok:false, error:'Customer survey payload is missing.' });
+      }
+
+      const result = await submitCustomerSurvey(args[0]);
+      return json(res, 200, { ok:true, result });
+    }
+
+    return json(res, 501, {
+      ok: false,
+      error: `Standalone operation "${method}" is not implemented yet.`,
+      stage: '3C'
+    });
+  } catch(error){
+    console.error(`RPC ${method} failed:`, error?.message || error);
+    return json(res, 400, {
+      ok: false,
+      error: error?.message || 'The request could not be completed.'
+    });
+  }
 }

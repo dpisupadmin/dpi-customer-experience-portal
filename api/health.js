@@ -26,12 +26,17 @@ export default async function handler(req, res){
   return json(res, databaseConnected ? 200 : 503, {
     ok: databaseConnected,
     service: 'DPI Customer Experience Portal API',
-    stage: '3B',
+    stage: '3C',
     runtime: 'standalone',
     googleAppsScript: false,
     databaseConnected,
     databaseStatus,
     dpiCompanyFound,
+    features: {
+      customerSurveySubmission: true,
+      customerSurveyEmail: false,
+      customerSurveyPdf: false
+    },
     timestamp: new Date().toISOString()
   });
 }
