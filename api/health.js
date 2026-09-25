@@ -31,7 +31,7 @@ export default async function handler(req, res){
       customerSurveySubmission:true,
       ucuaObservationSubmission:true,
       mySubmissionsEmailOtp:true,
-      anonymousTracking:true,
+      anonymousTracking:false,
       adminEmailOtp:!!publishable,
       supabaseAuth:true,
       adminDashboard:true,

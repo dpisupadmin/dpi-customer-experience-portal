@@ -66,7 +66,6 @@
 <div class="tabs">
 <button class="tab active" data-pane="submit">+ Submit Observation</button>
 <button class="tab" data-pane="history">My Submissions</button>
-<button class="tab" data-pane="anonymous">Track Anonymous</button>
 </div>
 </section>
 <section class="card pane" id="submit">
@@ -74,7 +73,6 @@
 <p class="hint">Everyone is welcome to report a safe or unsafe act/condition.</p>
 <div class="grid">
 </div>
-<div class="identity full"><label style="display:flex;align-items:center;gap:10px"><input id="anonymousSubmit" type="checkbox" onchange="toggleAnonymousSubmission()" style="width:auto"/> Submit anonymously</label><div class="privacy">Anonymous submissions do not store your name, email or company. Save the private tracking token shown after submission.</div></div>
 <div class="identity" id="nameWrap"><label>Name <span class="req">*</span></label><input id="name" placeholder="Your name"/></div>
 <div class="identity" id="emailWrap"><label>Email <span class="req">*</span></label><input id="email" placeholder="name@example.com" type="email"/></div>
 <div class="identity" id="companyWrap"><label>Company / Organization</label><select id="company" name="company" onchange="toggleOtherCompany()">
@@ -107,11 +105,6 @@
 <div class="otpStep active" id="otpRequestStep"><div class="grid"><div class="full"><label>Email</label><input autocomplete="email" id="histEmail" placeholder="name@example.com" type="email"/></div></div><div class="actions"><button class="btn" id="sendOtpBtn" onclick="sendOtp()">Send Verification Code</button></div></div>
 <div class="otpStep" id="otpVerifyStep"><div class="otpBox"><div class="grid"><div class="full"><label>6-digit verification code</label><input autocomplete="one-time-code" class="codeInput" id="histOtp" inputmode="numeric" maxlength="6" placeholder="000000"/><div class="privacy">Check the inbox for <strong id="otpEmailLabel"></strong>. The code expires in 10 minutes.</div></div></div><div class="actions"><button class="btn" id="verifyOtpBtn" onclick="verifyOtp()">Verify &amp; View My Submissions</button><button class="btn secondary" onclick="backToEmail()">Use Different Email</button></div></div></div>
 <div class="msg" id="historyMsg"></div><div id="historyResults"></div>
-</section>
-<section class="card pane" id="anonymous">
-<h2 class="title">Track Anonymous Observation</h2><p class="hint">Use the reference number and private tracking token shown after your anonymous submission.</p>
-<div class="grid"><div><label>Reference Number</label><input id="anonRef" placeholder="UCUA-2026-00001"/></div><div><label>Tracking Token</label><input id="anonToken" placeholder="Private token"/></div></div>
-<div class="actions"><button class="btn" id="anonBtn" onclick="trackAnon()">Track Observation</button></div><div class="msg" id="anonMsg"></div><div id="anonResult"></div>
 </section>
 <section class="card pane" id="admin">
 <div id="adminLogin">
