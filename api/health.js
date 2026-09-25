@@ -21,7 +21,7 @@ export default async function handler(req, res){
   return res.status(databaseConnected && publishable ? 200 : 503).json({
     ok: databaseConnected && !!publishable,
     service:'DPI Customer Experience Portal API',
-    stage:'3G.2',
+    stage:'3G.2.1',
     runtime:'standalone',
     googleAppsScript:false,
     databaseConnected,
@@ -40,6 +40,7 @@ export default async function handler(req, res){
       userRecognitionDisplay:true,
       contextualOtpEmail:true,
       adminAccessManagement:true,
+      adminDeletion:true,
       customerSurveyEmail:false,
       customerSurveyPdf:false
     },

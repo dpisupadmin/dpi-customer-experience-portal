@@ -226,7 +226,7 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
     document.getElementById('adminAccessList').innerHTML='<div class="privacy">Loading administrators...</div>';
     gs('adminListAdmins',[adminToken()],r=>{
       const items=r.items||[];
-      document.getElementById('adminAccessList').innerHTML=items.length?items.map(x=>`<div class="record"><div class="recordtop"><div><h4>${esc(x.displayName||'Administrator')}${x.isCurrent?' <span class="meta">(You)</span>':''}</h4><div class="meta">${esc(x.email)} · ${esc(x.role||'admin')}${x.createdAt?' · Added '+fmt(x.createdAt):''}</div></div><span class="${x.isActive?'status':'badge'}">${x.isActive?'Active':'Disabled'}</span></div><div class="actions">${x.isActive?`<button class="btn danger" ${x.isCurrent?'disabled title="You cannot disable your own access."':''} onclick="setAdministratorActive('${esc(x.id)}',false,'${esc(x.email)}')">Remove Access</button>`:`<button class="btn" onclick="setAdministratorActive('${esc(x.id)}',true,'${esc(x.email)}')">Enable Access</button>`}</div></div>`).join(''):'<div class="empty">No administrator records found.</div>';
+      document.getElementById('adminAccessList').innerHTML=items.length?items.map(x=>`<div class="record"><div class="recordtop"><div><h4>${esc(x.displayName||'Administrator')}${x.isCurrent?' <span class="meta">(You)</span>':''}</h4><div class="meta">${esc(x.email)} · ${esc(x.role||'admin')}${x.createdAt?' · Added '+fmt(x.createdAt):''}</div></div><span class="${x.isActive?'status':'badge'}">${x.isActive?'Active':'Disabled'}</span></div><div class="actions">${x.isActive?`<button class="btn danger" ${x.isCurrent?'disabled title="You cannot disable your own access."':''} onclick="setAdministratorActive('${esc(x.id)}',false,'${esc(x.email)}')">Remove Access</button>`:`<button class="btn" onclick="setAdministratorActive('${esc(x.id)}',true,'${esc(x.email)}')">Enable Access</button><button class="btn danger" onclick="deleteAdministrator('${esc(x.id)}','${esc(x.displayName||'Administrator')}','${esc(x.email)}')">Delete Administrator</button>`}</div></div>`).join(''):'<div class="empty">No administrator records found.</div>';
     },e=>adminFail(e,'settingsMsg'));
   }
 
@@ -242,6 +242,16 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
     const action=active?'enable':'remove';
     if(!confirm((active?'Enable':'Remove')+' Administration Access for '+email+'?'))return;
     gs('adminSetAdminActive',[adminToken(),id,active],r=>{setMsg('settingsMsg',r.message||('Administrator access '+action+'d.'),'ok');loadAdminSettings()},e=>adminFail(e,'settingsMsg'));
+  }
+
+
+  function deleteAdministrator(id,name,email){
+    const warning='Permanently delete administrator '+name+' <'+email+'>?\n\nThis will remove the administrator record and the matching Supabase Auth account. Existing Audit Log history will be preserved. This action cannot be undone.';
+    if(!confirm(warning))return;
+    const typed=prompt('For confirmation, type DELETE to permanently delete '+email+'.');
+    if(typed===null)return;
+    if(typed.trim().toUpperCase()!=='DELETE'){setMsg('settingsMsg','Administrator deletion cancelled. Type DELETE exactly to confirm.','err');return}
+    gs('adminDeleteAdmin',[adminToken(),id],r=>{setMsg('settingsMsg',r.message||'Administrator permanently deleted.','ok');loadAdminSettings()},e=>adminFail(e,'settingsMsg'));
   }
 
 
