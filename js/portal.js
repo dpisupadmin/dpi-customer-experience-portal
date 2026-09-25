@@ -125,7 +125,7 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
   function adminLogout(){const t=adminToken();clearAdminSession();if(t)gs('adminEndSession',[t],()=>{});showAdminLogin();setMsg('adminLoginMsg','Admin session ended.','ok')}
   function adminFail(e,id='dashMsg'){const msg=e.message||String(e);if(/session/i.test(msg)){clearAdminSession();showAdminLogin();setMsg('adminLoginMsg',msg,'err')}else setMsg(id,msg,'err')}
 
-  function switchAdminPage(page,btn){document.querySelectorAll('.adminPage').forEach(x=>x.classList.remove('active'));document.getElementById('admin-'+page).classList.add('active');document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');else{const b=document.querySelector(`.adminNav button[data-adminpage="${page}"]`);if(b)b.classList.add('active')}if(page==='dashboard')loadAdminDashboard();if(page==='observations')loadAdminObservations();if(page==='recognition')loadRecognitionPage();if(page==='surveys')loadCustomerSurveys();if(page==='audit')loadAudit();if(page==='share')loadShareInfo()}
+  function switchAdminPage(page,btn){document.querySelectorAll('.adminPage').forEach(x=>x.classList.remove('active'));document.getElementById('admin-'+page).classList.add('active');document.querySelectorAll('.adminNav button').forEach(x=>x.classList.remove('active'));if(btn)btn.classList.add('active');else{const b=document.querySelector(`.adminNav button[data-adminpage="${page}"]`);if(b)b.classList.add('active')}if(page==='dashboard')loadAdminDashboard();if(page==='observations')loadAdminObservations();if(page==='recognition')loadRecognitionPage();if(page==='surveys')loadCustomerSurveys();if(page==='audit')loadAudit();if(page==='share')loadShareInfo();if(page==='settings')loadAdminSettings()}
 
   function loadAdminDashboard(){const month=document.getElementById('dashMonth').value||currentMonth();setMsg('dashMsg','','');gs('adminGetDashboard',[adminToken(),month],d=>{document.getElementById('adminIdentity').textContent=(d.admin.name||'Admin/HSE')+' · '+d.admin.email;document.getElementById('metricGrid').innerHTML=[['TOTAL OBSERVATIONS',d.total],['SAFE ACTS',d.safeActs],['UNSAFE ACTS',d.unsafeActs],['CONTRIBUTORS',d.contributors]].map(x=>`<div class="metric"><div class="n">${x[1]}</div><div class="l">${x[0]}</div></div>`).join('');renderBars('typeChart',d.byType);renderRank('topContrib',d.topContributors.map((x,i)=>({label:x.name+(x.company?' · '+x.company:''),count:x.count})));renderRank('topLocations',d.topLocations);renderRecognition('dashRecognition',d.recognition)},e=>adminFail(e,'dashMsg'))}
   function renderBars(id,map){const vals=Object.entries(map||{}).sort((a,b)=>b[1]-a[1]),max=Math.max(1,...vals.map(x=>x[1])),total=Math.max(1,vals.reduce((s,x)=>s+x[1],0));document.getElementById(id).innerHTML=vals.length?vals.map(([k,v])=>`<div class="barRow"><div>${esc(k)}</div><div class="barTrack"><div class="barFill" style="width:${Math.round(v/max*100)}%"></div></div><strong>${v}</strong></div><div class="meta" style="text-align:right;margin-top:-5px;margin-bottom:6px">${Math.round(v/total*100)}%</div>`).join(''):'<div class="empty">No data for this month.</div>'}
@@ -219,6 +219,30 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
 
   function loadAudit(){document.getElementById('auditList').innerHTML='<div class="privacy">Loading...</div>';gs('adminGetAuditLog',[adminToken(),100],rows=>{document.getElementById('auditList').innerHTML=rows.length?rows.map(x=>`<div class="auditRow"><strong>${esc(x.action)}</strong> ${x.reference?`· ${esc(x.reference)}`:''}<div class="meta">${fmt(x.timestamp)} · ${esc(x.adminEmail)}</div>${x.details?`<div>${esc(x.details)}</div>`:''}</div>`).join(''):'<div class="empty">No admin actions yet.</div>'},e=>adminFail(e,'auditMsg'))}
   function downloadMonthlyCsv(){const month=document.getElementById('dashMonth').value||currentMonth();gs('adminGetMonthlyReportCsv',[adminToken(),month],r=>{const blob=new Blob([r.csv],{type:'text/csv;charset=utf-8'}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=r.filename;document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url)},e=>adminFail(e,'dashMsg'))}
+
+
+  function loadAdminSettings(){
+    setMsg('settingsMsg','','');
+    document.getElementById('adminAccessList').innerHTML='<div class="privacy">Loading administrators...</div>';
+    gs('adminListAdmins',[adminToken()],r=>{
+      const items=r.items||[];
+      document.getElementById('adminAccessList').innerHTML=items.length?items.map(x=>`<div class="record"><div class="recordtop"><div><h4>${esc(x.displayName||'Administrator')}${x.isCurrent?' <span class="meta">(You)</span>':''}</h4><div class="meta">${esc(x.email)} · ${esc(x.role||'admin')}${x.createdAt?' · Added '+fmt(x.createdAt):''}</div></div><span class="${x.isActive?'status':'badge'}">${x.isActive?'Active':'Disabled'}</span></div><div class="actions">${x.isActive?`<button class="btn danger" ${x.isCurrent?'disabled title="You cannot disable your own access."':''} onclick="setAdministratorActive('${esc(x.id)}',false,'${esc(x.email)}')">Remove Access</button>`:`<button class="btn" onclick="setAdministratorActive('${esc(x.id)}',true,'${esc(x.email)}')">Enable Access</button>`}</div></div>`).join(''):'<div class="empty">No administrator records found.</div>';
+    },e=>adminFail(e,'settingsMsg'));
+  }
+
+  function addAdministrator(){
+    const name=document.getElementById('newAdminName').value.trim(),email=document.getElementById('newAdminEmail').value.trim(),b=document.getElementById('addAdminBtn');
+    if(!name||!email){setMsg('settingsMsg','Enter the administrator name and email address.','err');return}
+    if(!confirm('Grant Administration Access to '+name+' <'+email+'>?'))return;
+    b.disabled=true;b.textContent='Adding...';
+    gs('adminAddAdmin',[adminToken(),{displayName:name,email}],r=>{b.disabled=false;b.textContent='Add Administrator';document.getElementById('newAdminName').value='';document.getElementById('newAdminEmail').value='';setMsg('settingsMsg',r.message||'Administrator access added.','ok');loadAdminSettings()},e=>{b.disabled=false;b.textContent='Add Administrator';adminFail(e,'settingsMsg')});
+  }
+
+  function setAdministratorActive(id,active,email){
+    const action=active?'enable':'remove';
+    if(!confirm((active?'Enable':'Remove')+' Administration Access for '+email+'?'))return;
+    gs('adminSetAdminActive',[adminToken(),id,active],r=>{setMsg('settingsMsg',r.message||('Administrator access '+action+'d.'),'ok');loadAdminSettings()},e=>adminFail(e,'settingsMsg'));
+  }
 
 
   let currentShareUrl='';

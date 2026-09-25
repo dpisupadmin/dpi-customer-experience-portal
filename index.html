@@ -127,6 +127,7 @@
 <button data-adminpage="surveys" onclick="switchAdminPage('surveys',this)">Customer Surveys</button>
 <button data-adminpage="audit" onclick="switchAdminPage('audit',this)">Audit Log</button>
 <button data-adminpage="share" onclick="switchAdminPage('share',this)">Share UCUA / QR</button>
+<button data-adminpage="settings" onclick="switchAdminPage('settings',this)">Settings</button>
 </div>
 <div class="adminPage active" id="admin-dashboard">
 <div class="monthRow"><div><label>Reporting Month</label><input id="dashMonth" type="month"/></div><button class="btn" onclick="loadAdminDashboard()">Refresh Dashboard</button><button class="btn secondary" onclick="downloadMonthlyCsv()">Download Monthly CSV</button></div>
@@ -162,6 +163,17 @@
 <div class="adminPage" id="admin-audit">
 <div class="actions" style="margin-top:0"><button class="btn" onclick="loadAudit()">Refresh Audit Log</button></div>
 <div class="msg" id="auditMsg"></div><div class="audit" id="auditList"></div>
+</div>
+<div class="adminPage" id="admin-settings">
+<div class="panel">
+<h3>Administrator Access</h3>
+<p class="hint">Manage the email addresses allowed to request an Administration Access OTP. Disabled administrators remain in the audit history.</p>
+<div class="msg" id="settingsMsg"></div>
+<div class="grid" style="margin-top:14px"><div><label>Administrator Name</label><input id="newAdminName" placeholder="Full name"/></div><div><label>Administrator Email</label><input id="newAdminEmail" type="email" placeholder="name@dpioilandgas.com"/></div></div>
+<div class="actions"><button class="btn" id="addAdminBtn" onclick="addAdministrator()">Add Administrator</button><button class="btn secondary" onclick="loadAdminSettings()">Refresh</button></div>
+<div class="privacy">Security: you cannot disable your own account or the last active administrator. All access changes are recorded in the Audit Log.</div>
+<div id="adminAccessList" style="margin-top:14px"></div>
+</div>
 </div>
 <div class="adminPage" id="admin-share">
 <div class="panel">
