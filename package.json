@@ -1,12 +1,10 @@
 {
   "name": "dpi-customer-experience-portal",
-  "version": "3.2.0-stage3c",
+  "version": "3.3.0-stage3e",
   "private": true,
   "type": "module",
-  "description": "Standalone DPI Customer Experience Portal with Supabase PostgreSQL backend. No Google Apps Script runtime dependency.",
-  "engines": {
-    "node": ">=20"
-  },
+  "description": "Standalone DPI Customer Experience Portal with Supabase PostgreSQL and Supabase Auth email OTP. No Google Apps Script runtime dependency.",
+  "engines": { "node": ">=20" },
   "scripts": {
     "test": "node --test",
     "check:no-gas": "node tests/no-google-apps-script.test.js"
