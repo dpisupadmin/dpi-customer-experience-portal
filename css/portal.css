@@ -407,3 +407,9 @@
     input.autoTitleCase{text-transform:capitalize}
 
   
+
+/* Stage 3G.1: user-visible recognition */
+.userRecognition{margin:14px 0 16px;padding:14px 16px;background:linear-gradient(135deg,#fff8e8,#fffdf7);border:1px solid #ead9a8;border-radius:12px}
+.userRecognitionTitle{font-weight:800;color:var(--brand-deep);margin-bottom:9px}
+.userRecognitionItem+.userRecognitionItem{margin-top:10px;padding-top:10px;border-top:1px solid #eee2bf}
+.recognitionNote{margin-top:8px;color:#334c61;line-height:1.5}

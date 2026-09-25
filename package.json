@@ -1,9 +1,9 @@
 {
   "name": "dpi-customer-experience-portal",
-  "version": "3.4.0-stage3f",
+  "version": "3.5.0-stage3g1",
   "private": true,
   "type": "module",
-  "description": "Standalone DPI Customer Experience Portal Stage 3F with Supabase admin dashboard and Auth. No Google Apps Script runtime dependency.",
+  "description": "Standalone DPI Customer Experience Portal Stage 3G.1 with UCUA recognition visibility, contextual OTP email wording, Supabase admin dashboard and Auth. No Google Apps Script runtime dependency.",
   "engines": {
     "node": ">=20"
   },
