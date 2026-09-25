@@ -74,9 +74,10 @@
 <p class="hint">Everyone is welcome to report a safe or unsafe act/condition.</p>
 <div class="grid">
 </div>
-<div class="identity"><label>Name <span class="req">*</span></label><input id="name" placeholder="Your name"/></div>
-<div class="identity"><label>Email <span class="req">*</span></label><input id="email" placeholder="name@example.com" type="email"/></div>
-<div class="identity"><label>Company / Organization</label><select id="company" name="company" onchange="toggleOtherCompany()">
+<div class="identity full"><label style="display:flex;align-items:center;gap:10px"><input id="anonymousSubmit" type="checkbox" onchange="toggleAnonymousSubmission()" style="width:auto"/> Submit anonymously</label><div class="privacy">Anonymous submissions do not store your name, email or company. Save the private tracking token shown after submission.</div></div>
+<div class="identity" id="nameWrap"><label>Name <span class="req">*</span></label><input id="name" placeholder="Your name"/></div>
+<div class="identity" id="emailWrap"><label>Email <span class="req">*</span></label><input id="email" placeholder="name@example.com" type="email"/></div>
+<div class="identity" id="companyWrap"><label>Company / Organization</label><select id="company" name="company" onchange="toggleOtherCompany()">
 <option value="">Select...</option>
 <option value="D&amp;P INNOVATIONS SDN BHD">D&amp;P INNOVATIONS SDN BHD</option>
 <option value="OTHERS">OTHERS</option>
@@ -85,7 +86,7 @@
 <label for="otherCompany">Company Name <span style="color:#d71920">*</span></label>
 <input autocomplete="organization" id="otherCompany" name="otherCompany" placeholder="Enter company / organization name" type="text"/>
 </div></div>
-<div class="identity"><label>Phone Number <span class="req">*</span></label><input id="phone" placeholder="+60123456789" type="tel"/><div class="privacy">Required for future recognition notifications. Include country code where possible.</div></div>
+
 <div class="identity full"><div class="secureNote"><strong>No password or PIN required.</strong> To review your submissions later, enter this same email in “My Submissions” and we will send a one-time verification code to your inbox.</div></div>
 <div class="full"><label>Observation Date &amp; Time <span class="req">*</span></label><input id="observationDateTime" type="datetime-local"/><div class="privacy">For a backdated observation, select the actual date and time it occurred.</div></div>
 <div><label>Observation Type <span class="req">*</span></label><select id="observationType"><option value="">Select...</option><option>Safe Act</option><option>Unsafe Act</option><option>Safe Condition</option><option>Unsafe Condition</option><option>Good Catch / Near Miss</option></select></div>
@@ -116,7 +117,7 @@
 <div id="adminLogin">
 <h2 class="title">Admin / HSE Access</h2>
 <p class="hint">Authorized administrators only. Access is protected by email OTP.</p>
-<div class="secureNote">Admin addresses must first be registered in the protected <strong>Admins</strong> sheet. Knowing an admin email alone is not enough; the OTP must be received by that mailbox.</div>
+<div class="secureNote">Admin addresses must first be registered as authorized administrators in the protected portal database. Knowing an admin email alone is not enough; the OTP must be received by that mailbox.</div>
 <div class="otpStep active" id="adminEmailStep"><div class="grid"><div class="full"><label>Authorized Admin Email</label><input id="adminEmail" placeholder="hse@company.com" type="email"/></div></div><div class="actions"><button class="btn gold" id="adminSendBtn" onclick="adminSendOtp()">Send Admin OTP</button></div></div>
 <div class="otpStep" id="adminOtpStep"><div class="otpBox"><label>6-digit Admin OTP</label><input autocomplete="one-time-code" class="codeInput" id="adminOtp" inputmode="numeric" maxlength="6" placeholder="000000"/><div class="actions"><button class="btn gold" id="adminVerifyBtn" onclick="adminVerify()">Verify &amp; Open Dashboard</button><button class="btn secondary" onclick="adminBackEmail()">Use Different Email</button></div></div></div>
 <div class="msg" id="adminLoginMsg"></div>
@@ -157,7 +158,7 @@
 <div class="adminPage" id="admin-recognition">
 <div class="monthRow"><div><label>Month</label><input id="recMonth" type="month"/></div><button class="btn" onclick="loadRecognitionPage()">Refresh</button></div>
 <div class="panel" style="margin-top:14px"><h3>Monthly Recognition</h3><div id="recPage"></div></div>
-<div class="privacy">Recognition is selected manually by Admin/HSE. Submission count does not automatically determine the “Best UCUA”. Recognition email is sent automatically. SMS requires a configured SMS gateway/provider.</div>
+<div class="privacy">Recognition is selected manually by Admin/HSE. Submission count does not automatically determine the “Best UCUA”. Recognition is managed by Admin/HSE. Email notification can be enabled in a later notification stage; no phone or SMS is required.</div>
 </div>
 <div class="adminPage" id="admin-surveys">
 <div class="monthRow"><div><label>Survey Month</label><input id="surveyMonth" type="month"/></div><button class="btn" onclick="loadCustomerSurveys()">Refresh Surveys</button><button class="btn secondary" onclick="downloadCustomerSurveyCsv()">Download Survey CSV</button></div>
@@ -185,7 +186,7 @@
 <button class="btn secondary" onclick="loadShareInfo()">Refresh URL / QR</button>
 </div>
 <div class="secureNote" style="margin-top:14px">
-<strong>Deployment rule:</strong> updating the same Web App deployment to a new version keeps the same public <code>/exec</code> URL. Creating a new Web App deployment creates a new URL, so refresh this QR page after any deployment change.
+<strong>Deployment:</strong> this QR points to the production Vercel portal URL. Normal production deployments keep the same public address, so the QR remains valid.
                 </div>
 </div>
 </div>

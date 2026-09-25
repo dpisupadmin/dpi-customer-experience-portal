@@ -7,6 +7,7 @@
   function localDateTimeValue(d){const pad=n=>String(n).padStart(2,'0');return d.getFullYear()+'-'+pad(d.getMonth()+1)+'-'+pad(d.getDate())+'T'+pad(d.getHours())+':'+pad(d.getMinutes())}
   function setDefaultObservationDateTime(){const el=document.getElementById('observationDateTime');if(el&&!el.value)el.value=localDateTimeValue(new Date())}
   function toggleOtherLocation(){const sel=document.getElementById('locationSelect'),wrap=document.getElementById('otherLocationWrap'),other=document.getElementById('otherLocation');const isOther=sel&&sel.value==='Others';if(wrap)wrap.style.display=isOther?'block':'none';if(!isOther&&other)other.value=''}
+  function toggleAnonymousSubmission(){const a=document.getElementById('anonymousSubmit')?.checked;['nameWrap','emailWrap','companyWrap'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display=a?'none':''});if(a){document.getElementById('name').value='';document.getElementById('email').value='';document.getElementById('company').value='';const oc=document.getElementById('otherCompany');if(oc)oc.value='';toggleOtherCompany();}}
   function getSelectedLocation(){const sel=document.getElementById('locationSelect');if(!sel||!sel.value)return'';if(sel.value==='Others')return(document.getElementById('otherLocation').value||'').trim();return sel.value}
 
 
@@ -95,7 +96,7 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
     },e=>{btn.disabled=false;btn.textContent='Submit Customer Survey';setMsg('cssMsg',e.message||String(e),'err')});
   }
 
-  async function submitForm(){const btn=document.getElementById('submitBtn');setMsg('submitMsg','','');document.getElementById('submitResult').innerHTML='';btn.disabled=true;btn.textContent='Submitting...';try{const payload={anonymous:false,name:document.getElementById('name').value,email:document.getElementById('email').value,observationDateTime:document.getElementById('observationDateTime').value,company:document.getElementById('company').value,phone:document.getElementById('phone').value,observationType:document.getElementById('observationType').value,location:getSelectedLocation(),observation:document.getElementById('observation').value,actionTaken:document.getElementById('actionTaken').value,photo:await fileData()};gs('submitObservation',[payload],r=>{setMsg('submitMsg','Observation submitted successfully.','ok');let extra=r.anonymous?`<div class="detail" style="margin-top:10px"><strong>Private tracking token</strong><div class="token">${esc(r.trackingToken)}</div><div class="privacy">Save both the reference and this token.</div></div>`:'<div class="privacy">Use My Submissions and email OTP to review this observation later.</div>';document.getElementById('submitResult').innerHTML=`<div class="result"><div class="ref">${esc(r.reference)}</div><div class="meta">${fmt(r.submittedAt)}</div>${extra}</div>`;btn.disabled=false;btn.textContent='Submit Observation'},e=>{setMsg('submitMsg',e.message||String(e),'err');btn.disabled=false;btn.textContent='Submit Observation'})}catch(e){setMsg('submitMsg',e.message||String(e),'err');btn.disabled=false;btn.textContent='Submit Observation'}}
+  async function submitForm(){const btn=document.getElementById('submitBtn');setMsg('submitMsg','','');document.getElementById('submitResult').innerHTML='';btn.disabled=true;btn.textContent='Submitting...';try{const isAnon=!!document.getElementById('anonymousSubmit')?.checked;const payload={anonymous:isAnon,name:isAnon?'':document.getElementById('name').value,email:isAnon?'':document.getElementById('email').value,observationDateTime:document.getElementById('observationDateTime').value,company:isAnon?'':document.getElementById('company').value,observationType:document.getElementById('observationType').value,location:getSelectedLocation(),observation:document.getElementById('observation').value,actionTaken:document.getElementById('actionTaken').value,photo:await fileData()};gs('submitObservation',[payload],r=>{setMsg('submitMsg','Observation submitted successfully.','ok');let extra=r.anonymous?`<div class="detail" style="margin-top:10px"><strong>Private tracking token</strong><div class="token">${esc(r.trackingToken)}</div><div class="privacy">Save both the reference and this token.</div></div>`:'<div class="privacy">Use My Submissions and email OTP to review this observation later.</div>';document.getElementById('submitResult').innerHTML=`<div class="result"><div class="ref">${esc(r.reference)}</div><div class="meta">${fmt(r.submittedAt)}</div>${extra}</div>`;btn.disabled=false;btn.textContent='Submit Observation'},e=>{setMsg('submitMsg',e.message||String(e),'err');btn.disabled=false;btn.textContent='Submit Observation'})}catch(e){setMsg('submitMsg',e.message||String(e),'err');btn.disabled=false;btn.textContent='Submit Observation'}}
 
   function renderRecord(r){return `<div class="record"><div class="recordtop"><div><h4>${esc(r.reference)} · ${esc(r.observationType)}</h4><div class="meta">${r.observationDateTime?'Observed: '+fmt(r.observationDateTime)+' · ':''}Submitted: ${fmt(r.submittedAt)} · ${esc(r.location)}</div></div></div><p><strong>Observation</strong><br>${esc(r.observation)}</p>${r.actionTaken?`<p><strong>Immediate action</strong><br>${esc(r.actionTaken)}</p>`:''}${r.hasPhoto?'<div class="detail" style="margin-top:10px">📎 Photo attached</div>':''}</div>`}
 
@@ -143,11 +144,10 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
           <div class="k">Submitted</div><div>${fmt(r.submittedAt)}</div>
           <div class="k">Name</div><div>${esc(r.name)}</div>
           <div class="k">Email</div><div>${esc(r.email)}</div>
-          <div class="k">Phone</div><div>${esc(r.phone)}</div>
           <div class="k">Company</div><div>${esc(r.company)}</div>
           <div class="k">Type</div><div>${esc(r.observationType)}</div>
           <div class="k">Location</div><div>${esc(r.location)}</div>
-          <div class="k">Photo</div><div>${r.photoFileId?'Attached in Google Drive':'None'}</div>
+          <div class="k">Photo</div><div>${r.photoFileId?'Attached securely':'None'}</div>
         </div>
         <p><strong>Observation</strong><br>${esc(r.observation)}</p>
         <p><strong>Immediate action</strong><br>${esc(r.actionTaken||'—')}</p>
@@ -184,7 +184,7 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
     },e=>adminFail(e,'reviewMsg'));
   }
 
-  function setRecognition(){const c=document.getElementById('revRecognition').value,n=document.getElementById('revRecNotes').value;gs('adminSetRecognition',[adminToken(),currentReviewRef,c,n],r=>{setMsg('reviewMsg','Recognition updated. '+(r.smsStatus||''),'ok');openAdminReview(currentReviewRef)},e=>adminFail(e,'reviewMsg'))}
+  function setRecognition(){const c=document.getElementById('revRecognition').value,n=document.getElementById('revRecNotes').value;gs('adminSetRecognition',[adminToken(),currentReviewRef,c,n],r=>{setMsg('reviewMsg','Recognition updated. '+(r.notificationStatus||r.smsStatus||''),'ok');openAdminReview(currentReviewRef)},e=>adminFail(e,'reviewMsg'))}
   function removeRecognition(){const c=document.getElementById('revRecognition').value;gs('adminRemoveRecognition',[adminToken(),currentReviewRef,c],r=>{setMsg('reviewMsg','Recognition removed.','ok');openAdminReview(currentReviewRef)},e=>adminFail(e,'reviewMsg'))}
 
   function loadRecognitionPage(){const month=document.getElementById('recMonth').value||currentMonth();gs('adminGetDashboard',[adminToken(),month],d=>{let h='<h4>Selected Recognition</h4>';h+=d.recognition.length?d.recognition.map(x=>`<div class="record"><strong>${esc(x.category)}</strong> — ${esc(x.reference)}${x.notes?`<div class="detail">${esc(x.notes)}</div>`:''}</div>`).join(''):'<div class="empty">No recognition selected yet.</div>';h+='<h4 style="margin-top:18px">Top Contributors</h4>';h+=d.topContributors.length?d.topContributors.map((x,i)=>`<div class="rank"><div class="pos">${i+1}</div><div>${esc(x.name)}${x.company?' · '+esc(x.company):''}</div><div class="cnt">${x.count}</div></div>`).join(''):'<div class="empty">No contributors this month.</div>';document.getElementById('recPage').innerHTML=h},e=>adminFail(e,'dashMsg'))}
@@ -231,12 +231,12 @@ function setMsg(id,text,type){const e=document.getElementById(id);e.textContent=
       document.getElementById('ucuaQr').innerHTML='';
 
       if(!currentShareUrl){
-        setMsg('shareMsg','Unable to determine the Apps Script Web App URL.','err');
+        setMsg('shareMsg','Unable to determine the production portal URL.','err');
         return;
       }
 
       if(r.isDevelopmentUrl){
-        setMsg('shareMsg','This is the /dev test URL. Open the deployed /exec application before generating the QR you distribute publicly.','err');
+        setMsg('shareMsg','This is not the production portal URL. Open the production Vercel deployment before distributing the QR.','err');
       }else{
         setMsg('shareMsg','QR code generated for the current deployed public UCUA URL.','ok');
       }
