@@ -174,6 +174,16 @@
 <div class="privacy">Security: you cannot disable your own account or the last active administrator. All access changes are recorded in the Audit Log.</div>
 <div id="adminAccessList" style="margin-top:14px"></div>
 </div>
+<div class="panel" style="margin-top:16px">
+<h3>Customer Survey Notifications</h3><p class="hint">These recipients receive an email whenever a new Customer Satisfaction Survey is submitted. Notification access does not grant Administration Access.</p>
+<div class="grid"><div><label>Recipient Name</label><input id="surveyNotifyName" placeholder="Full name"/></div><div><label>Recipient Email</label><input id="surveyNotifyEmail" type="email" placeholder="name@company.com"/></div></div>
+<div class="actions"><button class="btn" onclick="addNotificationRecipient('customer_survey')">Add Survey Recipient</button></div><div id="surveyNotifyList"></div>
+</div>
+<div class="panel" style="margin-top:16px">
+<h3>UCUA Observation Notifications</h3><p class="hint">These recipients receive an email whenever a new UCUA Observation is submitted. This list is independent from Customer Survey notifications.</p>
+<div class="grid"><div><label>Recipient Name</label><input id="ucuaNotifyName" placeholder="Full name"/></div><div><label>Recipient Email</label><input id="ucuaNotifyEmail" type="email" placeholder="name@company.com"/></div></div>
+<div class="actions"><button class="btn" onclick="addNotificationRecipient('ucua')">Add UCUA Recipient</button></div><div id="ucuaNotifyList"></div>
+</div>
 </div>
 <div class="adminPage" id="admin-share">
 <div class="panel">
