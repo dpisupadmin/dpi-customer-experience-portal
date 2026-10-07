@@ -1,9 +1,9 @@
 {
   "name": "dpi-customer-experience-portal",
-  "version": "3.7.0-stage3g3",
+  "version": "3.7.1-stage3g4",
   "private": true,
   "type": "module",
-  "description": "Standalone DPI Customer Experience Portal Stage 3G.3 with full Customer Survey PDF and independent Survey/UCUA submission notification recipients.",
+  "description": "Standalone DPI Customer Experience Portal Stage 3G.4 with Concept B one-page Customer Survey PDF report and independent Survey/UCUA submission notifications.",
   "engines": {
     "node": ">=20"
   },
